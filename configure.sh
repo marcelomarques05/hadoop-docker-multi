@@ -2,6 +2,9 @@
 
 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
+# Build hadoop-image
+docker build . -t hadoop-image:1
+
 # Stop/Delete All
 if [ `docker ps | grep -v CONTAINER | wc -l` != 0 ]; then
     docker stop `docker ps | grep -v CONTAINER | awk '{print $1}'`
