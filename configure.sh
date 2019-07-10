@@ -1,7 +1,13 @@
 #!/bin/bash
 
 # Stop/Delete All
-docker stop `docker ps | grep -v CONTAINER | awk '{print $1}'`
+if [ `docker ps | grep -v CONTAINER | wc -l` != 0 ]; then
+    docker stop `docker ps | grep -v CONTAINER | awk '{print $1}'`
+    sleep 3
+fi
+
+# Download Apache Hadoop
+wget http://ftp.unicamp.br/pub/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz
 
 # Start Containers
 docker run -d -it -h hadoop-master --name hadoop-master --rm -p 9870:9870 -p 8088:8088 ubuntu:bionic
@@ -35,7 +41,7 @@ docker exec hadoop-datanode02 bash -c "echo '$(docker inspect -f '{{range .Netwo
 # Hadoop Configuration
 # hadoop-master
 docker exec hadoop-master bash -c "mkdir -p /opt/hadoop/logs && mkdir -p /opt/hdfs/datanode && mkdir -p /opt/hdfs/namenode && mkdir -p /opt/yarn/logs"
-docker exec hadoop-master bash -c "wget http://ftp.unicamp.br/pub/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz -P /opt/"
+docker cp  hadoop-3.1.2.tar.gz hadoop-master:/opt/
 docker exec hadoop-master bash -c "tar -xzvf /opt/hadoop-3.1.2.tar.gz --exclude=hadoop-3.1.2/share/doc --directory=/opt/hadoop --strip 1"
 docker exec hadoop-master bash -c "echo 'export HADOOP_HOME=/opt/hadoop' >> /root/.bashrc"
 docker exec hadoop-master bash -c "echo 'export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin' >> /root/.bashrc"
@@ -43,7 +49,7 @@ docker exec hadoop-master bash -c "echo 'export HADOOP_CONF_DIR=/opt/hadoop/etc/
 docker exec hadoop-master bash -c "echo 'export HDFS_NAMENODE_USER=root' >> /root/.bashrc"
 docker exec hadoop-master bash -c "echo 'export HDFS_DATANODE_USER=root' >> /root/.bashrc"
 docker exec hadoop-master bash -c "echo 'export HDFS_SECONDARYNAMENODE_USER=root' >> /root/.bashrc"
-docker exec hadoop-master bash -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-oracle' >> /root/.bashrc"
+docker exec hadoop-master bash -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64' >> /root/.bashrc"
 docker exec hadoop-master bash -c "echo 'export HADOOP_MAPRED_HOME=/opt/hadoop' >> /root/.bashrc"
 docker exec hadoop-master bash -c "echo 'export HADOOP_COMMON_HOME=/opt/hadoop' >> /root/.bashrc"
 docker exec hadoop-master bash -c "echo 'export HADOOP_HDFS_HOME=/opt/hadoop' >> /root/.bashrc"
@@ -62,16 +68,17 @@ docker cp conf/. hadoop-master:/opt/hadoop/etc/hadoop/
 docker exec hadoop-master bash -c "hdfs namenode -format"
 
 #hadoop-datanode01
-docker exec hadoop-datanode01 bash -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-oracle' >> /root/.bashrc"
+docker exec hadoop-datanode01 bash -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64' >> /root/.bashrc"
+docker exec hadoop-datanode01 bash -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64' >> /opt/hadoop/etc/hadoop/hadoop-env.sh"
 docker exec hadoop-datanode01 bash -c "mkdir -p /opt/hadoop/logs && mkdir -p /opt/hdfs/datanode && mkdir -p /opt/hdfs/namenode && mkdir -p /opt/yarn/logs"
-docker exec hadoop-datanode01 bash -c "wget http://ftp.unicamp.br/pub/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz -P /opt/"
+docker cp  hadoop-3.1.2.tar.gz hadoop-datanode01:/opt/
 docker exec hadoop-datanode01 bash -c "tar -xzvf /opt/hadoop-3.1.2.tar.gz --exclude=hadoop-3.1.2/share/doc --directory=/opt/hadoop --strip 1"
 docker cp conf/. hadoop-datanode01:/opt/hadoop/etc/hadoop/
 
 #hadoop-datanode02
-docker exec hadoop-datanode02 bash -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-oracle' >> /root/.bashrc"
-docker exec hadoop-datanode02 bash -c "mkdir -p /opt/hadoop/logs && mkdir -p /opt/hdfs/datanode && mkdir -p /opt/hdfs/namenode && mkdir -p /opt/yarn/logs"
-docker exec hadoop-datanode02 bash -c "wget http://ftp.unicamp.br/pub/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz -P /opt/"
+docker exec hadoop-datanode02 bash -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64' >> /root/.bashrc"
+docker exec hadoop-datanode02 bash -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64' >> /opt/hadoop/etc/hadoop/hadoop-env.sh"
+docker cp  hadoop-3.1.2.tar.gz hadoop-datanode02:/opt/
 docker exec hadoop-datanode02 bash -c "tar -xzvf /opt/hadoop-3.1.2.tar.gz --exclude=hadoop-3.1.2/share/doc --directory=/opt/hadoop --strip 1"
 docker cp conf/. hadoop-datanode02:/opt/hadoop/etc/hadoop/
 
