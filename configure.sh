@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Stop/Delete All
 docker stop `docker ps | grep -v CONTAINER | awk '{print $1}'`
 
@@ -60,12 +62,14 @@ docker cp conf/. hadoop-master:/opt/hadoop/etc/hadoop/
 docker exec hadoop-master bash -c "hdfs namenode -format"
 
 #hadoop-datanode01
+docker exec hadoop-datanode01 bash -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-oracle' >> /root/.bashrc"
 docker exec hadoop-datanode01 bash -c "mkdir -p /opt/hadoop/logs && mkdir -p /opt/hdfs/datanode && mkdir -p /opt/hdfs/namenode && mkdir -p /opt/yarn/logs"
 docker exec hadoop-datanode01 bash -c "wget http://ftp.unicamp.br/pub/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz -P /opt/"
 docker exec hadoop-datanode01 bash -c "tar -xzvf /opt/hadoop-3.1.2.tar.gz --exclude=hadoop-3.1.2/share/doc --directory=/opt/hadoop --strip 1"
 docker cp conf/. hadoop-datanode01:/opt/hadoop/etc/hadoop/
 
 #hadoop-datanode02
+docker exec hadoop-datanode02 bash -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-oracle' >> /root/.bashrc"
 docker exec hadoop-datanode02 bash -c "mkdir -p /opt/hadoop/logs && mkdir -p /opt/hdfs/datanode && mkdir -p /opt/hdfs/namenode && mkdir -p /opt/yarn/logs"
 docker exec hadoop-datanode02 bash -c "wget http://ftp.unicamp.br/pub/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz -P /opt/"
 docker exec hadoop-datanode02 bash -c "tar -xzvf /opt/hadoop-3.1.2.tar.gz --exclude=hadoop-3.1.2/share/doc --directory=/opt/hadoop --strip 1"
