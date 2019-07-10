@@ -4,7 +4,7 @@
 docker stop `docker ps | grep -v CONTAINER | awk '{print $1}'`
 
 # Start Containers
-docker run -d -it -h hadoop-master --name hadoop-master --rm -p 50070:50070 -p 8088:8088 -p 9864:9864 -p 9820:9820 ubuntu:bionic
+docker run -d -it -h hadoop-master --name hadoop-master --rm -p 9870:9870 -p 8088:8088 ubuntu:bionic
 docker run -d -it --link hadoop-master:hadoop-master -h hadoop-datanode01 --name hadoop-datanode01 --rm ubuntu:bionic
 docker run -d -it --link hadoop-master:hadoop-master -h hadoop-datanode02 --name hadoop-datanode02 --rm ubuntu:bionic
 
@@ -77,3 +77,4 @@ docker cp conf/. hadoop-datanode02:/opt/hadoop/etc/hadoop/
 
 # Start Hadoop
 docker exec hadoop-master bash -c "/opt/hadoop/sbin/start-dfs.sh"
+docker exec hadoop-master bash -c "/opt/hadoop/sbin/start-yarn.sh"
