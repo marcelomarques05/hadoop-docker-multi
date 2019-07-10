@@ -7,7 +7,7 @@ if [ `docker ps | grep -v CONTAINER | wc -l` != 0 ]; then
 fi
 
 # Start Containers
-docker run -d -it -h hadoop-master --name hadoop-master --rm -p 50070:50070 -p 50075:50075 -p 50030:50030 -p 51111:51111 -p 8088:8088 -p 9864:9864 -p 9870:9870 -p 8088:8088 hadoop-image
+docker run -d -it -h hadoop-master --name hadoop-master --rm -p 50070:50070 -p 50075:50075 -p 50030:50030 -p 51111:51111 -p 8088:8088 -p 9864:9864 -p 9870:9870 -p 8088:8088 hadoop-image:1
 docker run -d -it --link hadoop-master:hadoop-master -h hadoop-datanode01 --name hadoop-datanode01 --rm hadoop-image:1
 docker run -d -it --link hadoop-master:hadoop-master -h hadoop-datanode02 --name hadoop-datanode02 --rm hadoop-image:1
 
