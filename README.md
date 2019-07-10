@@ -5,7 +5,7 @@
 - hadoop-datanode01
 - hadoop-datanode02
 
-# Access
-- docker exec -it hadoop-master /bin/bash
-- docker exec -it hadoop-datanode01 /bin/bash
-- docker exec -it hadoop-datanode02 /bin/bash
+# Instructions
+- Create the build
+    docker build . -t hadoop-image:1
+
