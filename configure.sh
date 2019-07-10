@@ -11,7 +11,7 @@ fi
 # Start Containers
 docker run -d -it -h hadoop-master --name hadoop-master --rm -p 8030:8030 -p 8032:8032 -p 8033:8033 -p 8088:8088 -p 9870:9870 -p 9871:9871 hadoop-image:1
 docker run -d -it --link hadoop-master:hadoop-master -h hadoop-datanode01 --name hadoop-datanode01 --rm -p 9864:9864 hadoop-image:1
-docker run -d -it --link hadoop-master:hadoop-master -h hadoop-datanode02 --name hadoop-datanode02 --rm -p 9864:9864 hadoop-image:1
+docker run -d -it --link hadoop-master:hadoop-master -h hadoop-datanode02 --name hadoop-datanode02 --rm -p 9865:9864 hadoop-image:1
 
 # SSH Conf
 docker exec hadoop-master bash -c "/etc/init.d/ssh start"
