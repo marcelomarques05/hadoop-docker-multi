@@ -65,6 +65,7 @@ docker exec hadoop-datanode01 bash -c "mkdir -p /opt/hadoop/logs && mkdir -p /op
 #hadoop-datanode02
 docker exec hadoop-datanode02 bash -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64' >> /root/.bashrc"
 docker exec hadoop-datanode02 bash -c "echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64' >> /opt/hadoop/etc/hadoop/hadoop-env.sh"
+docker exec hadoop-datanode02 bash -c "mkdir -p /opt/hadoop/logs && mkdir -p /opt/hdfs/datanode && mkdir -p /opt/hdfs/namenode && mkdir -p /opt/yarn/logs"
 
 # Start Hadoop
 docker exec hadoop-master bash -c "/opt/hadoop/bin/hdfs namenode -format"
