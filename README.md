@@ -9,3 +9,6 @@
 - Create the build
     docker build . -t hadoop-image:1
 
+- Run the Installation
+    bash configure.sh
+
