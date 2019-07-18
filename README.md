@@ -17,5 +17,3 @@ docker build . -t hadoop-image:1
 ```
 bash configure.sh
 ```
-
-- Go ahead...
