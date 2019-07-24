@@ -7,9 +7,10 @@ EXPOSE 50070 50075 50030 51111 8088 9864
 RUN apt-get update -y && apt-get install -y ssh rsync wget curl net-tools vim inetutils-ping inetutils-telnet
 # Hadoop Packages
 ADD http://ftp.unicamp.br/pub/apache/hadoop/common/hadoop-3.1.2/hadoop-3.1.2.tar.gz /opt/
-RUN mkdir /opt/hadoop && tar -xzvf /opt/hadoop-3.1.2.tar.gz --exclude=hadoop-3.1.2/share/doc --directory=/opt/hadoop --strip 1 && rm -f /opt/hadoop-3.1.2.tar.gz
+ADD http://public-repo-1.hortonworks.com/ambari/ubuntu18/2.x/updates/2.7.3.0/ambari-2.7.3.0-ubuntu18.tar.gz /opt/
+RUN mkdir /opt/hadoop && tar -xzvf /opt/hadoop-3.1.2.tar.gz --exclude=hadoop-3.1.2/share/doc --directory=/opt/hadoop --strip 1 && rm -f /opt/hadoop-3.1.2.tar.gz && tar -xzvf /opt/hadoop-3.1.2.tar.gz --exclude=hadoop-3.1.2/share/doc --directory=/opt/hadoop --strip 1 && rm -f /opt/ambari-2.7.3.0-ubuntu18.tar.gz
 COPY hadoop-conf/ /opt/hadoop/etc/hadoop/
 # OS Packages - Download - Extras
-RUN apt-get install -y openjdk-8-jdk openjdk-8-jre
+RUN apt-get install -y openjdk-8-jdk openjdk-8-jre software-properties-common
 # OS Files - Default
 COPY conf/profile /root/.profile
