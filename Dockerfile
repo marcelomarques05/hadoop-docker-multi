@@ -1,6 +1,6 @@
 FROM ubuntu:bionic
 LABEL description="This is a custom Hadoop Server for Docker - Just for Fun..."
-MAINTAINER Marcelo Marques <marcelo@smarques.com>
+LABEL maintainer="Marcelo Marques <marcelo@smarques.com>"
 
 EXPOSE 50070 50075 50030 51111 8088 9864
 # Hadoop Information
