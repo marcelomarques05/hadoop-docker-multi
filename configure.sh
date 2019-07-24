@@ -15,6 +15,7 @@ fi
 docker run -d -it -h hadoop-master --name hadoop-master --rm -p 8088:8088 -p 9870:9870 hadoop-image:1
 docker run -d -it -h hadoop-datanode01 --name hadoop-datanode01 --rm -p 9864:9864 hadoop-image:1
 docker run -d -it -h hadoop-datanode02 --name hadoop-datanode02 --rm -p 9865:9864 hadoop-image:1
+#docker run -d -it -h hadoop-ambari --name hadoop-ambari --rm -p 80:80 ubuntu:bionic
 
 # SSH Conf
 docker exec hadoop-master bash -c "/etc/init.d/ssh start"
@@ -75,3 +76,6 @@ docker exec hadoop-datanode02 bash -c "mkdir -p /opt/hadoop/logs && mkdir -p /op
 # Start Hadoop
 docker exec hadoop-master bash -c "/opt/hadoop/bin/hdfs namenode -format"
 docker exec hadoop-master bash -c "/opt/hadoop/sbin/start-all.sh"
+
+# Ambari
+#docker exec hadoop-ambari bash -c "apt-get update -y && apt-get install -y wget && mkdir /opt/ambari && wget http://public-repo-1.hortonworks.com/ambari/ubuntu18/2.x/updates/2.7.3.0/ambari-2.7.3.0-ubuntu18.tar.gz -P /opt/ && tar -xzvf /opt/ambari-2.7.3.0-ubuntu18.tar.gz --directory=/opt/ambari --strip 1 && rm -f /opt/ambari-2.7.3.0-ubuntu18.tar.gz"
